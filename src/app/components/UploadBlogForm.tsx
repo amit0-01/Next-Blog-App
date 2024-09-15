@@ -32,7 +32,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 export function BlogUploadForm() {
-  const router = useRouter()
+  const router = useRouter();
   const { control, handleSubmit, setValue, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,7 +41,6 @@ export function BlogUploadForm() {
       coverImage: undefined,
     },
   });
-  
 
   // FORM SUBMISSION
   const onSubmit = async (data: FormData) => {
@@ -51,77 +50,72 @@ export function BlogUploadForm() {
     if (data.coverImage) {
       formData.append('coverImage', data.coverImage);
     }
-   try {
-      const res:any = await AddBlog(data)
-      if(res.success){
-       router.push(`/particular-blog/${res.blog.id}`)
+    try {
+      const res: any = await AddBlog(data);
+      if (res.success) {
+        router.push(`/particular-blog/${res.blog.id}`);
       }
-      
-        } catch (error) {
-        console.log('error', error)
-      }    
-
-
+    } catch (error) {
+      console.log('error', error);
+    }
   };
 
   return (
     <div className="flex justify-center mt-4 p-4 border">
-    <Form >
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Title</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter the blog title" {...field} />
-              </FormControl>
-              <FormMessage>{errors.title?.message}</FormMessage>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={control}
-          name="content"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Content</FormLabel>
-              <FormControl>
-                <Textarea placeholder="Enter the blog content" rows={10} {...field} />
-              </FormControl>
-              <FormMessage>{errors.content?.message}</FormMessage>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={control}
-          name="coverImage"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Cover Image</FormLabel>
-              <FormControl>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    if (e.target.files?.[0]) {
-                      console.log('e',e.target.files[0]);
-                      
-                      setValue('coverImage', e.target.files[0]);
-                    }
-                  }}
-                />
-              </FormControl>
-              <FormMessage>{errors.coverImage?.message}</FormMessage>
-            </FormItem>
-          )}
-        />
-        <div className="flex justify-center">
-        <Button type="submit">Submit</Button>
-        </div>
-      </form>
-    </Form>
+      {/* <Form> */}
+        <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
+          <FormField
+            control={control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Title</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter the blog title" {...field} />
+                </FormControl>
+                <FormMessage>{errors.title?.message}</FormMessage>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="content"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Content</FormLabel>
+                <FormControl>
+                  <Textarea placeholder="Enter the blog content" rows={10} {...field} />
+                </FormControl>
+                <FormMessage>{errors.content?.message}</FormMessage>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="coverImage"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Cover Image</FormLabel>
+                <FormControl>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      if (e.target.files?.[0]) {
+                        setValue('coverImage', e.target.files[0]);
+                      }
+                    }}
+                  />
+                </FormControl>
+                <FormMessage>{errors.coverImage?.message}</FormMessage>
+              </FormItem>
+            )}
+          />
+          <div className="flex justify-center">
+            <Button type="submit">Submit</Button>
+          </div>
+        </form>
+      {/* </Form> */}
     </div>
   );
 }
