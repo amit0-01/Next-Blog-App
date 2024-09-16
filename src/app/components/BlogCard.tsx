@@ -33,7 +33,7 @@ const BlogCard: React.FC<any> = ({ blog, onRefresh }) => {
         <div className="w-full p-4" key={item.id}>
           <Card className="w-full h-full bg-white shadow-lg rounded-lg overflow-hidden">
             <CardHeader className="p-4 border-b border-gray-200">
-              <CardTitle>
+              <CardTitle className='h-20'>
                 <h1 className="text-xl font-semibold">{item.title}</h1>
               </CardTitle>
             </CardHeader>
